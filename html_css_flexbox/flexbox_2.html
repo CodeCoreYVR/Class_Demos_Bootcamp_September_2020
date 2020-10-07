@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel='stylesheet' type='text/css' href='normalize.css' />
+  <style>
+    body {
+      height: 100vh;
+    }
+    
+    .page-container {
+      display: flex;
+      align-items: stretch;
+      height: inherit;
+      flex-direction: column;
+    }
+
+    .top-content {
+      flex-grow: 1;
+      background-color: blue;
+    }
+
+    .bottom-content {
+      display: flex;
+      flex-grow: 1;
+      background-color: red;
+      align-items: stretch;
+      justify-content: space-around;
+    }
+    
+    .item {
+      flex-grow: 1;
+      background-color: green;
+      border: 1px solid black;
+    }
+
+    .clearfix {
+      background-color: transparent;
+      flex-grow: .5;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .bottom-content {
+        display: flex;
+        flex-direction: column;
+        background-color: red;
+        align-items: stretch;
+        justify-content: space-around;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class='page-container'>
+    <section class='top-content'></section>
+    <section class='bottom-content'>
+      <div class='clearfix item'></div>
+      <div class='item'></div>
+      <div class='clearfix item'></div>
+      <div class='item'></div>
+      <div class='clearfix item'></div>
+    </section>
+  </main>
+</body>
+</html>
