@@ -11,9 +11,9 @@
     }
     .container {
       display: flex;
-      height: 100%;
       background-color: aqua;
       align-items: stretch;
+      flex-grow: 20;
     }
 
     .left-sidebar {
@@ -25,12 +25,27 @@
       background-color: pink;
       flex-grow: 7;
     }
+
+    .page-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .navbar {
+      flex-grow: 3;
+      background-color: brown;
+    }
   </style>
 </head>
 <body>
-  <div class='container'>
-    <div class='left-sidebar'></div>
-    <div class='right-content'></div>
-  </div>
+  <main class='page-container'>
+    <header class='navbar'></header>
+    <section class='container'>
+      <div class='left-sidebar'></div>
+      <div class='right-content'></div>
+    </section>
+  </main>
 </body>
 </html>
