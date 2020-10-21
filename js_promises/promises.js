@@ -23,18 +23,24 @@
 //   console.log(data);
 // })
 
+const THREE_SECONDS = 3000;
 function flipCoin() {
   return new Promise((resolve, reject) => {
     // 1 will represent face
     // 0 will represent tails
     const face = [1,0][Math.floor(Math.random() * 2)]; // will give us a random number between 0 - 1
-    if (face === 1) {
-      reject(1); // reject is used to return a bad value
-      // only the .catch will have the rejected value
-    } else {
-      resolve(0); // resolve is used to return a good value
-      // only the .then will have the resolved value
-    }
+    const randomTime = [1,2,3,4][Math.floor(Math.random() * 4)] * 1000; // give us a number between 1000 - 4000
+
+    setTimeout(() => {
+      if (randomTime > THREE_SECONDS) {
+        reject(`Error: The coin was thrown too high!`);
+      }
+      if (face === 1) {
+        resolve('tails');
+      } else {
+        resolve('heads');
+      }
+    }, randomTime)
   })
 }
 
@@ -47,9 +53,9 @@ penny.then((result) => { // argument within .then is always the resolved value w
   console.log(`Error: it was ${err}`);
 })
 
-const toonie = flipCoin();
-toonie.then((result) => {
-  console.log(`toonie was flipped it resolved ${result}`)
-}).catch((err) => {
-  console.log(`toonie was flipped it rejected ${err}`)
-})
+// const toonie = flipCoin();
+// toonie.then((result) => {
+//   console.log(`toonie was flipped it resolved ${result}`)
+// }).catch((err) => {
+//   console.log(`toonie was flipped it rejected ${err}`)
+// })
