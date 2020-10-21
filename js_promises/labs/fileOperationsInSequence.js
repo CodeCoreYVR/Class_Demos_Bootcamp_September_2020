@@ -1,5 +1,3 @@
-const { join } = require('path');
-
 const fs = require('fs').promises; // The file system module, for your convienence, has already promisified all their functions
 
 // Using a promisified fs.readFile, fs.writeFile and fs.readdir from the previous lab, read the contents of every file in the directory.
