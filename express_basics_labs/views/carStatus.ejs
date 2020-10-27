@@ -1,0 +1,16 @@
+<%- include('./partials/header') %>
+  <main>
+    <form>
+      <div>
+        <label for='carYear'>What year is your car?</label>
+        <input type='text' name='carYear' id='carYear'>
+      </div>
+      <div>
+        <input type='submit' value='Check Car Oldness'>
+      </div>
+    </form>
+    <% if (carYear) { %>
+      <h1><%= carYear %></h1>
+    <% } %>
+  </main>
+<%- include('./partials/footer') %>
