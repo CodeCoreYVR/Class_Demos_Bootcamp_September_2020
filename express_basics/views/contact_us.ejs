@@ -1,0 +1,47 @@
+<!-- include is a function used to include a view template from a different file -->
+<!-- it takes the argument of a path to the view file -->
+<%- include('./partials/header') %>
+  <main id='contact-us'>
+    <h1>Contact Us</h1>
+    <!-- default behaviour of submitting a form is to send a GET request to the current PATH -->
+    <!-- To overwrite this you can set the action attribute in the form tag -->
+    <form action='/thank_you'>
+      <div>
+        <label for='fullName'>What's your full name</label> </br>
+        <input id='fullName' type='text' name='fullName'>
+      </div>
+      <div>
+        <label for='favouriteColor'>What's your favourite colour?</label> </br>
+        <input id='favouriteColor' type='text' name='favouriteColor'>
+      </div>
+      <div>
+        <label for='message'>Leave a message!</label> </br>
+        <textarea id='message' type='text' name='message'></textarea>
+      </div>
+      <div>
+        <% const days = [
+          "Monday",
+          "Tuesday",
+          "Wednsday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ]
+        %>
+        <% for (let option of days) { %>
+          <input
+            type="radio"
+            name="day"
+            value="<%= option %>"
+          />
+          <label for="<%= option %>"><%= option %></label>
+        <% } %>
+      </div>
+      <!-- the default behaviour when you submit a form is to send a GET request to the current PATH -->
+      <!-- The form will attatch all the inputs to the URL query -->
+      <!-- the name attributes of all inputs act as the keys to the query the values which were entered into the inputs are the values for the key -->
+      <input type='submit' value='Send'/>
+    </form>
+  </main>
+<%- include('./partials/footer') %>
