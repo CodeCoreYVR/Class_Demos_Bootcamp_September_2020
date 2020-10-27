@@ -26,6 +26,12 @@ app.get('/car_status', (req, res) => {
   res.render('carStatus', { carYear: carOldness });
 });
 
+app.get('/random_person', (req, res) => {
+  const people = req.query.names.split(',')
+  const randomPerson = people[Math.floor(Math.random() * people.length)]
+  res.render('randomPerson', { pickedPerson: randomPerson, people });
+})
+
 const PORT = 8080;
 const ADDRESS = '127.0.0.1';
 
