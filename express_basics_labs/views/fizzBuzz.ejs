@@ -1,0 +1,26 @@
+<%- include('./partials/header') %>
+  <main>
+    <form>
+      <div>
+        <label for='num1'>Enter in a number</label>
+        <br>
+        <input type='number' id='num1' name='num1'>
+      </div>
+      <div>
+        <label for='num2'>Enter in a number</label>
+        <br>
+        <input type='number' id='num2' name='num2'>
+      </div>
+      <div>
+        <input type='submit' value='Fizz Buzz!!!'>
+      </div>
+    </form>
+    <div>
+      <ul>
+        <% for (let element of fizzBuzz) { %>
+          <li><%= element %></li>
+        <% } %>
+      </ul>
+    </div>
+  </main>
+<%- include('./partials/footer') %>

@@ -32,6 +32,26 @@ app.get('/random_person', (req, res) => {
   res.render('randomPerson', { pickedPerson: randomPerson, people });
 })
 
+app.get('/fizz_buzz', (req, res) => {
+  const num1 = req.query.num1;
+  const num2 = req.query.num2;
+  const fizzBuzz = [];
+  for (let i = 1; i <= 100; i++) {
+    let string = '';
+    if (i % num1 === 0) {
+      string += 'fizz'
+    }
+    if (i % num2 === 0) {
+      string += 'buzz'
+    }
+    if (string.length === 0) {
+      string += i
+    }
+    fizzBuzz.push(string);
+  }
+  res.render('fizzBuzz', { fizzBuzz });
+})
+
 const PORT = 8080;
 const ADDRESS = '127.0.0.1';
 
