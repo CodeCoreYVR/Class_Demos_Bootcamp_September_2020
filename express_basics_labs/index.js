@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const fs = require('fs').promises;
 
 const app = express();
 
@@ -58,6 +59,16 @@ app.get('/fizz_buzz', (req, res) => {
   }
   res.render('fizzBuzz', { fizzBuzz });
 })
+
+app.get('/directory_lister', (req, res) => {
+  fs.readdir(__dirname)
+    .then(files => {
+      res.render('directoryListener', { files });
+    })
+    .catch(err => {
+      res.send(`Error happend! Sorry ): ${err}`);
+    })
+});
 
 const PORT = 8080;
 const ADDRESS = '127.0.0.1';
