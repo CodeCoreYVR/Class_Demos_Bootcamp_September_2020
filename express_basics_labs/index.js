@@ -27,6 +27,9 @@ app.get('/car_status', (req, res) => {
 });
 
 app.get('/random_person', (req, res) => {
+  if (!req.query.names) {
+    res.render('randomPerson', { people: false, pickedPerson: false });
+  }
   const people = req.query.names.split(',')
   const randomPerson = people[Math.floor(Math.random() * people.length)]
   res.render('randomPerson', { pickedPerson: randomPerson, people });

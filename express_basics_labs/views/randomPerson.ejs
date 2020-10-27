@@ -4,14 +4,16 @@
       <div>
         <label for='names'>Enter Names, seperated by commas</label>
         <br>
-        <textarea name='names' id='names' cols='30' rows='10'><%= people %></textarea>
+        <textarea name='names' id='names' cols='30' rows='10'><%= people ? people : '' %></textarea>
       </div>
       <div>
         <input type='submit' value='Pick One!'>
       </div>
     </form>
-    <div>
-      <h1><%= pickedPerson %></h1>
-    </div>
+    <% if (pickedPerson) { %>
+      <div>
+        <h1><%= pickedPerson %></h1>
+      </div>
+    <% } %>
   </main>
 <%- include('./partials/footer') %> 
