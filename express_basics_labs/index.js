@@ -33,9 +33,13 @@ app.get('/random_person', (req, res) => {
 })
 
 app.get('/fizz_buzz', (req, res) => {
-  const num1 = req.query.num1;
-  const num2 = req.query.num2;
+  const num1 = parseInt(req.query.num1);
+  const num2 = parseInt(req.query.num2);
   const fizzBuzz = [];
+  console.log(num1);
+  if (typeof num1 !== 'number' || typeof num2 !== 'number' || isNaN(num1) || isNaN(num2)) {
+    res.render('fizzBuzz', { fizzBuzz });
+  }
   for (let i = 1; i <= 100; i++) {
     let string = '';
     if (i % num1 === 0) {
