@@ -33,6 +33,8 @@ app.use(getUsername); // mounting our custom middleware
 
 app.use(logger('dev')); // this is how we'd setup the morgan logger from the docs
 
+
+
 app.set('view engine', 'ejs'); // tells express that we are using EJS within our View Templates
 app.set('views', 'views'); // tell express that our views live in a directory at /views
 
@@ -40,6 +42,20 @@ app.set('views', 'views'); // tell express that our views live in a directory at
 // This allows our express server to serve up assets like images, css, videos, sounds from a directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  const body = req.body; // this is the inputs of a form sent with a POST request
+  let monkeyFound = false;
+  for (let key in body) {
+    if (body[key] === 'monkey') {
+      monkeyFound = true;
+    }
+  }
+  if (monkeyFound) {
+    res.send('no monkeys!!');
+  } else {
+    next();
+  }
+});
 
 // app is our instance of ExpressJS it is an object that contains methods to create a web server
 // documentation for the app object http://expressjs.com/en/4x/api.html#app
