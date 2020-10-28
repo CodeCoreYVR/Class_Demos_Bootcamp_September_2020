@@ -3,6 +3,20 @@ const logger = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
+// Custom middleware used to get the username from cookies and make it global to all views
+// Middleware has 3 arguments
+function getUsername(req, res, next) {
+  console.log("🍪 Cookies: ", req.cookies);
+  const username = req.cookies.username;
+
+  // to make a variable accessable from all views we can put it on the `res.locals` object
+  res.locals.username = username;
+  // all properties on the locals object become global variables that can be accessed in any template
+
+  // next function tells express to move the request to the next middleware function
+  next();
+}
+
 const app = express();
 
 // middleware
@@ -12,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 // extended true option will allow parsing into arrays and objects. Useful when the server recieves data like JSON
 
 app.use(cookieParser()); // parses cookies
+app.use(getUsername); // mounting our custom middleware
 // cookie parser middleware will look into the request object and find any cookies
 // it will put all cookies on a property called cookies
 // we can access parsed cookies using `request.cookies`
@@ -24,6 +39,7 @@ app.set('views', 'views'); // tell express that our views live in a directory at
 // Setup the static asset middleware
 // This allows our express server to serve up assets like images, css, videos, sounds from a directory
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // app is our instance of ExpressJS it is an object that contains methods to create a web server
 // documentation for the app object http://expressjs.com/en/4x/api.html#app
