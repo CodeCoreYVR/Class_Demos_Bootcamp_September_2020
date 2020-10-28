@@ -104,6 +104,10 @@ app.get('/contact_us', (request, response) => {
   response.render('contact_us');
 });
 
+app.post('/contact_us', (req, res) => {
+  res.send(req.body);
+})
+
 app.get('/thank_you', (request, response) => {
   const query = request.query;
   // query looks like:
@@ -128,6 +132,11 @@ app.post('/sign_in', (request, response) => {
   const MAX_AGE = 1000 * 60 * 60 * 24 * 7; // A week in milliseconds
   response.cookie('username', username, { maxAge: MAX_AGE }) // make sure you give every cookie a maxAge so they will expire after a set time.
   response.redirect('/'); // tell browser to go to the path /
+})
+
+app.post('/sign_out', (req, res) => {
+  res.clearCookie('username');
+  res.redirect('/');
 })
 
 const PORT = 3000;

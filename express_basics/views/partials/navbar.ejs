@@ -5,5 +5,12 @@
   |
   <a href='/contact_us'>Contact Us!</a>
   |
-  <p><%= username %></p>
+  <% if (username) { %>
+    <span><%= username %></span>
+    <form id='sign-in' method='POST' action='/sign_out'>
+      <input type='submit' value='Sign Out'>
+    </form>
+  <% } else { %>
+    <a href='/sign_in'>Sign In!</a>
+  <% } %>
 </nav>
