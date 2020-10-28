@@ -1,10 +1,16 @@
 const express = require('express');
 const logger = require('morgan');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 // middleware
+app.use(cookieParser()); // parses cookies
+// cookie parser middleware will look into the request object and find any cookies
+// it will put all cookies on a property called cookies
+// we can access parsed cookies using `request.cookies`
+
 app.use(logger('dev')); // this is how we'd setup the morgan logger from the docs
 
 app.set('view engine', 'ejs'); // tells express that we are using EJS within our View Templates
@@ -61,7 +67,7 @@ app.get('/hello_world', (request, response) => {
 
 // This function will handle the request made to `GET /`
 app.get('/', (request, response) => {
-
+  console.log(request.cookies);
   // tell express to render out a view
   // response.render is a method to render a View Template
   // The first argument is a string which is the name of the template file. (omit the extension). We told express the views are inside of the views directory so we can omit that as well.
@@ -84,6 +90,16 @@ app.get('/thank_you', (request, response) => {
   // the second argument to render method is a locals object.
   // every key within this object becomes a variable that can be accessed within the View Template
   response.render('thank_you', query);
+})
+
+app.get('/sign_in', (request, response) => {
+  const username = request.query.username;
+  // create cookie
+  // reponse.cookie is a method that will create a SET-COOKIE header in the HTTP response
+  // The arguments are: 1) name of the key 2) value 3) options object
+  const MAX_AGE = 1000 * 60 * 60 * 24 * 7; // A week in milliseconds
+  response.cookie('username', username, { maxAge: MAX_AGE }) // make sure you give every cookie a maxAge so they will expire after a set time.
+  response.render('signInPage');
 })
 
 const PORT = 3000;
