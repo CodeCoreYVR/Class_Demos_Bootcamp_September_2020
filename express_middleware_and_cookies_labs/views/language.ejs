@@ -1,0 +1,23 @@
+<%- include('./partials/header') %>
+  <main>
+    <form method='POST'>
+      <div>
+        <label for='name'>Enter Your Name:</label>
+        <br>
+        <input type='text' name='name' id='name'>
+      </div>
+      <div>
+        <label for='language'>Enter Your Language</label>
+        <br>
+        <select name='language' id='language'>
+          <option value='english'>English</option>
+          <option value='french'>French</option>
+          <option value='spanish'>Spanish</option>
+        </select>
+      </div>
+      <div>
+        <input type='submit' value='Submit'>
+      </div>
+    </form>
+  </main>
+<%- include('./partials/footer') %>
