@@ -6,6 +6,11 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 // middleware
+app.use(express.urlencoded({ extended: true }));
+// this middleware will parse x-www-urlencoded data from POST requests
+// It will put all the data on the `request.body` property
+// extended true option will allow parsing into arrays and objects. Useful when the server recieves data like JSON
+
 app.use(cookieParser()); // parses cookies
 // cookie parser middleware will look into the request object and find any cookies
 // it will put all cookies on a property called cookies
@@ -93,13 +98,20 @@ app.get('/thank_you', (request, response) => {
 })
 
 app.get('/sign_in', (request, response) => {
-  const username = request.query.username;
+  response.render('signInPage');
+})
+
+// HTTP Requests are made up of a HTTP VERB and a PATH
+// GET /sign_in is not the same as a POST /sign_in
+// Responds to requests made to POST /sign_in
+app.post('/sign_in', (request, response) => {
+  const username = request.body.username;
   // create cookie
   // reponse.cookie is a method that will create a SET-COOKIE header in the HTTP response
   // The arguments are: 1) name of the key 2) value 3) options object
   const MAX_AGE = 1000 * 60 * 60 * 24 * 7; // A week in milliseconds
   response.cookie('username', username, { maxAge: MAX_AGE }) // make sure you give every cookie a maxAge so they will expire after a set time.
-  response.render('signInPage');
+  response.redirect('/'); // tell browser to go to the path /
 })
 
 const PORT = 3000;
