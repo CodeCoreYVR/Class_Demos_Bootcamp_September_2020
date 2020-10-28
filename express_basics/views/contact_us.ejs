@@ -6,17 +6,17 @@
     <!-- default behaviour of submitting a form is to send a GET request to the current PATH -->
     <!-- To overwrite this you can set the action attribute in the form tag -->
     <form action='/thank_you'>
-      <div>
+      <div class='form-group'>
         <label for='fullName'>What's your full name</label> </br>
-        <input id='fullName' type='text' name='fullName'>
+        <input id='fullName' class='form-control' type='text' name='fullName'>
       </div>
-      <div>
+      <div class='form-group'>
         <label for='favouriteColor'>What's your favourite colour?</label> </br>
-        <input id='favouriteColor' type='text' name='favouriteColor'>
+        <input id='favouriteColor' class='form-control' type='text' name='favouriteColor'>
       </div>
-      <div>
+      <div class='form-group'>
         <label for='message'>Leave a message!</label> </br>
-        <textarea id='message' type='text' name='message'></textarea>
+        <textarea id='message' class='form-control' type='text' name='message'></textarea>
       </div>
       <div>
         <% const days = [

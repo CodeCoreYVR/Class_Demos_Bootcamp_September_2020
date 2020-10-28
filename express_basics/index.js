@@ -1,13 +1,18 @@
 const express = require('express');
 const logger = require('morgan');
+const path = require('path');
 
 const app = express();
 
+// middleware
 app.use(logger('dev')); // this is how we'd setup the morgan logger from the docs
 
 app.set('view engine', 'ejs'); // tells express that we are using EJS within our View Templates
 app.set('views', 'views'); // tell express that our views live in a directory at /views
 
+// Setup the static asset middleware
+// This allows our express server to serve up assets like images, css, videos, sounds from a directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app is our instance of ExpressJS it is an object that contains methods to create a web server
 // documentation for the app object http://expressjs.com/en/4x/api.html#app
