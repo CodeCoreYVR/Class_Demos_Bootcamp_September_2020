@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const postRouter=require('./routes/postsRoutes')
 
 // Custom middleware used to get the username from cookies and make it global to all views
 // Middleware has 3 arguments
@@ -154,6 +155,16 @@ app.post('/sign_out', (req, res) => {
   res.clearCookie('username');
   res.redirect('/');
 })
+
+
+// EXPRESS - REST CLASS
+app.use("/posts",postRouter);
+// https://localhost:3000/posts/
+// app.use("/comments",postRouter);
+// https://localhost:3000/comments/
+
+
+// 
 
 const PORT = 3000;
 const ADDRESS = 'localhost';

@@ -1,6 +1,7 @@
 // db/client.js
 
 const environment=process.env.NODE_ENV || "development"; // set the environment
+const knex=require('knex'); // please add this line in client.js
 
 //production
 //staging
