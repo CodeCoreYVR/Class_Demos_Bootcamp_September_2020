@@ -41,6 +41,41 @@ router.post("/",(req,res)=>{ // this route will address post request comming fro
         res.redirect(`/posts/${post.id}`) // redirecting our server to display the show.ejs(Show page). Which we will be building now.
     })
 })
+// Edit 
+// Comprise of 2 steps:
+// 1. fetch the data that user want to edit 
+// 2. Save the data with changes coming from user
+
+// Step 1:
+router.get("/:id/edit",(req,res)=>{
+    console.log("I am in Step 1 - Edit");
+    const id=req.params.id;
+    knex("posts")
+    .where("id",id)
+    .first()
+    .then(post=>{
+        res.render("posts/edit",{post:post})
+    })
+})
+
+// Step 2- For Patch request :
+//  Saving the edited data comming from user 
+
+router.patch("/:id",(req,res)=>{
+    const updatedPost={
+        title:req.body.title,
+        content:req.body.content,
+        imageUrl: req.body.imageUrl
+    };
+    knex("posts")
+    .where("id",req.params.id)
+    .update(updatedPost)
+    .then(()=>{
+        res.redirect(`/posts/${req.params.id}`)
+    })
+
+
+})
 
 // Show Page
 router.get("/:id",(req,res)=>{
@@ -71,6 +106,7 @@ router.delete("/:id",(req,res)=>{
     });
 
 });
+
 
 
 module.exports=router;
