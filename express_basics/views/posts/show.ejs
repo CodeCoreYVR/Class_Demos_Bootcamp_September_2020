@@ -1,0 +1,21 @@
+<%- include('../partials/header')%>
+<div class='card mb-4'>
+    <% if(post.imageUrl) {%>
+    <img class='card-img-top' src="<%= post.imageUrl %>"/>
+    <% } %>  
+    <div class='card-body'>
+        <h5 class="card-title"><%= post.title  %> </h5>
+        <p class="card-text">
+            <%= post.content  %> 
+        </p>
+    </div>
+<form method="POST" action="/posts/<%= post.id%>">
+
+<input type="hidden" name="_method" value="Delete" />
+<input type="submit" class="btn btn-outline-danger" value="Delete"/>
+</form>
+
+</div>
+
+
+<%- include('../partials/footer')%>
