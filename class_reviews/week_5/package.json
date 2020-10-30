@@ -2,7 +2,7 @@
   "name": "week_5",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
     "db:create": "createdb --echo todo_list_development",
