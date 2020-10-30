@@ -29,4 +29,22 @@
     "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate"
   },
   ```
-  
+  * knex init (generate knexfile.js)
+  * modify knexfile.js
+    * Remove staging and production
+    * Change client to "pg" 
+    * Specify database name in development.connection.database
+      * Add username and password if you're on Linux
+    * Specify path to migration files in development.migrations.directory
+    * Specify tableName that knex uses to keep track of migrations run in development.migrations.tableName
+  * Create database on your machine
+    * npm run db:create 
+    * or
+    * createdb --echo name_of_database
+    * The name_of_database has to be the same as the database name specifed in knexfile.js
+  * Create a todos table in name_of_database
+    * knex migrate:make createTodos (might need to create db directory first)
+    * modified exports.up and exports.down in migration file
+    * npm run db:migrate or knex migrate:latest
+      * After running migrations, do not modify the migration files
+      * Run npm run db:rollback instead or make another change using a new migration
