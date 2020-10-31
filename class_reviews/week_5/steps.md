@@ -78,4 +78,71 @@
     app.use(express.static(path.join(__dirname, 'public')))
   ```
   * Create server using app.listen()
-  
+5. Home Page
+  * mkdir -p views/partials
+  * create header.ejs and footer.ejs inside of partials
+  * Download bootstrap or add a CDN to the header and footer partials
+    * If you download:
+      * mkdir -p public/stylesheets
+      * mkdir -p public/javascripts
+  * Create home.ejs inside of "views"
+  * Add a route handler to render the home page view when the client makes a GET request to "/"
+  ```
+    app.get("/", (req, res) => {
+        res.render("home")
+    })
+  ```
+6. Todos Router
+  * mkdir routes
+  * create router called todos.js inside of routes/
+  * make a Router
+  ```
+    const router = require("express").Router()
+  ```
+  * add routes to this file handling all types of requests
+  * at the end of the file, export the router
+  * Back in app.js, require the todosRouter, specifying the path to todos.js
+  * Use it as a routing middleware
+  ```
+    const todosRouter = require("./routes/todos")
+    app.use("/todos", todosRouter)
+  ```
+7. Create our knex connection
+  * touch db/client.js
+  * import config and load knex:
+  ```
+    const config = require("../knexfile")
+    const knex = require("knex")
+  ```
+  * Export the connection by passing in the dev config to knex():
+  ```
+    module.exports = knex(config.development)
+  ```
+8. Create knex queries
+  * touch db/queries.js
+  * import the knex connection
+  ```
+    const knex = require("./client")
+  ```
+  * create and export an object with methods that make queries
+9. Todos Index (GET "/todos")
+  * Use knex to get every row (instance) of a todo from the todos table
+  * loop through the data that comes back and render a view for every todo
+  * call knex.index() (or whatever you called the method inside of queries)
+  * call .then() on the promisfied array that you get back from knex, and render a index view
+    * Create index.ejs in views
+    * Pass the array of todos data to our view
+10. New Todo (GET "/todos/new")
+  * Create a view called new.ejs inside of views
+  * Make a form which POSTS the data to "/todos" when you submit
+  * Add a route handler in the todosRouter that renders this view
+11. Create Todo (POST "/todos")
+  * Add knex query to insert a todo in our db
+  * Add a method to destroy the knex connection
+  * knex.destroy() is called on the connection itself, not the query object
+
+
+### Summary of REST
+  * GET "/todos" => renders index page of all todos
+  * GET "/todos/new" => renders form for creating a todo
+  * POST "/todos" => insert the todo in the db

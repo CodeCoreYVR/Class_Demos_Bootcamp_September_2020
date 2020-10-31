@@ -1,0 +1,37 @@
+<%- include("./partials/header") %>
+
+<%# 
+  When a form a submitted, an http request is made by the browser/client to the
+  url in the "action" attribute with the data from the input fields in the form
+  the url starts from the domain, e.g. "/todos" => "localhost:3000/todos"
+  e.g. {
+    image_url: <input-field's value>,
+    content: <input-field's value>,
+  }
+  The default http verb when you submit html forms is GET, but we can change
+  it to POST using the "method" attribute. We should change it because according http 
+  conventions, POST is used to create data. It'd still work if you don't use POST 
+  and use a different router method, but we should stick convention. 
+  Since we're creating a new todo, we should use POST.
+%>
+
+<form action="/todos" method="POST">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <%# 
+        the for attribute in <label> should match the id of the associated <input> 
+        while the name attribute in input is the name of the property that we'll send 
+        in the request object's body.
+      %>
+      <label for="img_url">Image URL</label>
+      <input name="img_url" type="text" class="form-control" id="img_url">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="content">Todo Content</label>
+      <input name="content" type="text" class="form-control" id="content">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">Add Todo</button>
+</form>
+
+<%- include("./partials/footer") %>

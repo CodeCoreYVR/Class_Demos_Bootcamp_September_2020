@@ -26,7 +26,6 @@
 // knex migrate:rollback
 
 module.exports = {
-
   development: {
     // tell knex that our client is postgres
     // "pg" is the package we installed using npm to connect to our database
