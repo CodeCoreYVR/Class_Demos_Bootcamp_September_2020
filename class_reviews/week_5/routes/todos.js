@@ -1,5 +1,5 @@
 const express = require("express")
-const knex = require("../db/queries")
+const knex = require("../db/queries") // object of knex queries
 
 // "Router" created is part of the Express library and is used
 // for routing. It allows us to seperate our routes into different files.
@@ -33,13 +33,22 @@ router.post("/", (req, res) => {
   // it's only available if we parsed it with the express.urlencoded() middleware
   req.body.username = "Anson"
   // res.send(req.body)
-  knex
-    .createTodo(req.body)
-    .then(data => {
+  knex // knex queries object
+    .createTodo(req.body) // make the db insertion
+    .then(data => { // data is an [] of all todos inserted because we returned "*"
       
-      knex.destroy()
-      res.send(data)
+      res.redirect(`/todos/${data[0].id}`)
+    
+      // res.send(data)      
+      knex.destroy() // destroy connection
     })
+})
+
+// /:id is a wildcard match
+// e.g. "/todos/3" => :id is "3"
+// We can access the value of 3 from the url with this wildcard from req.params.id
+router.get("/:id", (req, res) => {
+  res.send(req.params)
 })
 
 module.exports = router

@@ -13,7 +13,10 @@ module.exports = {
   createTodo(todo) {
     return knex("todos").insert(todo, "*")
   },
+
+  // knex.destroy() is called on the connection itself, not the query object
+  // we don't need to return anything when we destroy the connection
   destroy() {
     knex.destroy()
-  }
+  },
 }

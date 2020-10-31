@@ -140,6 +140,8 @@
   * Add knex query to insert a todo in our db
   * Add a method to destroy the knex connection
   * knex.destroy() is called on the connection itself, not the query object
+  * After creating, redirect to the todo's show page
+    * Create a view called show.ejs inside of views
 
 
 ### Summary of REST
