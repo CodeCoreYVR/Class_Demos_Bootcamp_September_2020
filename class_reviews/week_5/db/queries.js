@@ -10,13 +10,19 @@ module.exports = {
   // The "todo" param will be an object, representing the form data from the request body
   // passing in "*" as a 2nd arg to insert() will return that todo object after
   // inserting it into the db
-  createTodo(todo) {
+  create(todo) {
     return knex("todos").insert(todo, "*")
   },
 
-  // knex.destroy() is called on the connection itself, not the query object
-  // we don't need to return anything when we destroy the connection
-  destroy() {
-    knex.destroy()
+  show(id) {
+    return knex("todos")
+      .where("id", id) // returns an array of all rows that match
+      .first() // only the first object will be returned
   },
+
+  delete(id) {
+    return knex("todos")
+      .where("id", id)
+      .del()
+  }
 }

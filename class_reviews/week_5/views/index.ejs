@@ -1,5 +1,27 @@
 <%- include("./partials/header") %>
 
-<h1>I'll add some todos later</h1>
+<h1>All Todos</h1>
+
+<% for (let todo of todos) { %>
+  
+  <div class="card" style="width: 18rem;">
+    <img src="<%= todo.img_url %>" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title"><a href="/todos/<%= todo.id %>"><%= todo.username %></a></h5>
+      <p class="card-text"><%= todo.content %></p>
+      <a href="/todos/<%= todo.id %>" class="btn btn-warning">Show Todo</a>
+      <%# 
+        Use an HTML form to make requests that are not GET.
+        input[type=hidden] can be used to add a key to req.body
+        when you submit the form, the request is made to url in "action" attribute
+      %>
+      <form action="/todos/<%= todo.id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE" />
+        <input type="submit" class="btn btn-danger" value="Delete" />
+      </form>
+    </div>
+  </div>
+  
+<% } %>
 
 <%- include("./partials/footer") %>

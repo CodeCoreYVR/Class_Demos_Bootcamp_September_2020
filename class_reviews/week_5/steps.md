@@ -138,13 +138,27 @@
   * Add a route handler in the todosRouter that renders this view
 11. Create Todo (POST "/todos")
   * Add knex query to insert a todo in our db
-  * Add a method to destroy the knex connection
-  * knex.destroy() is called on the connection itself, not the query object
-  * After creating, redirect to the todo's show page
+  * After inserting, redirect to the todo's show page
     * Create a view called show.ejs inside of views
-
+12. Show Todo
+  * Find the id of the todo in the url params
+  * Add knex query to find a specfic todo from our db with that id
+  * render the show view with that todo object
+13. Add NavBar
+  * Links to Home, Todos Index, Nee Todo Form
+  * Add links to each todo in the index that will take you to the show page
+    * You have access to each id in the todo, so you can make a GET to todo/:id
+14. Setup Method Override
+  * Add middleware
+  * docs: https://www.npmjs.com/package/method-override#custom-logic
+15. Delete a todo
+  * Wrap the delete button in a form to make a DELETE request
+  * Add a hidden input to add { _method: name_of_http_verb } to the req.body
+  * Add a route handler for DELETE /todos/:id
+  * Create a knex query to delete that todo with that id
 
 ### Summary of REST
   * GET "/todos" => renders index page of all todos
+  * GET "/todos/:id" => renders show page of todo with the id in the param
   * GET "/todos/new" => renders form for creating a todo
   * POST "/todos" => insert the todo in the db

@@ -4,6 +4,7 @@ const logger = require("morgan")
 const cookieParser = require("cookie-parser")
 const methodOverride = require("method-override")
 const todosRouter = require("./routes/todos")
+const { nextTick } = require("process")
 
 // Requiring the "express" package returns us a function that 
 // creates an instance of the express application when invoked
@@ -46,6 +47,21 @@ app.use(cookieParser())
 // path beginning from the root. We use path.join() to append "public" to it
 // to use this directory to serve our static assets.
 app.use(express.static(path.join(__dirname, 'public')))
+
+// Method Override
+// HTML forms only support GET and POST. We need to change the verb
+// to meet REST conventions. 
+app.use(methodOverride((req, res) => {
+  // if req.body._method exists, it means we setup our form on the client-side
+  // to be a request that is not GET or POST
+  if (req.body && req.body._method) {
+    const method = req.body._method
+    delete req.body._method // deleting that property from the form data in case we need use this object later in knex
+    return method // the new HTTP verb
+  }
+  // Whatever is returned from this callback will be the new HTTP verb
+  // for our request that meets conventions.
+}))
 
 // Routes:
 // First arg is a path from the root of the url path
