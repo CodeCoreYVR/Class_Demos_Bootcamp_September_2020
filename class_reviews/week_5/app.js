@@ -92,6 +92,24 @@ app.get("/", (req, res) => {
   res.render("home")
 })
 
+// Custom Middleware:
+// Define our own middleware by passing in a callback to app.use()
+// The callback will take in req, res, next
+app.use((req, res, next) => {
+  // You have to access to req.cookies when you setup cookie-parser before this middleware
+  // req.cookies is a an object of key/values representing the name/values of each cookie
+  
+  // Set keys on res.locals to create variables that are global to 
+  // all of our rendered views including partials.
+  // if (req.cookies.username) res.locals.username = req.cookies.username
+  res.locals.username = req.cookies.username || ""
+
+  // next is a middleware function. When called, it tells Express that this current
+  // middleware function is finished and you can move on to the next 
+  // middleware in the pipeline
+  next()
+})
+
 // Route Middlewares:
 // When a request is made to "http://localhost:3000/todos",
 // use the router "todos.js" that we created to handle those requests
