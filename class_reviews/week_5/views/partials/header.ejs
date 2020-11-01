@@ -27,5 +27,21 @@
         <a class="nav-link" href="/todos/new">New</a>
       </button>
     </form>
+
+    <% if (username) { %>
+      <span class="navbar-text" id="username">
+        Logged in as: <%= username %>
+      </span>
+      <form action="/sign_out" method="POST">
+        <input type="hidden" name="_method" value="DELETE" />
+        <input type="submit" class="btn btn-danger" value="Sign Out" />
+      </form>
+    <% } else { %>
+      <form action="/sign_in" method="POST">
+        <input type="text" name="username" />
+        <input type="submit" class="btn btn-success" value="Sign In" />
+      </form>
+    <% } %>
+
   </nav>
   <div class="container">

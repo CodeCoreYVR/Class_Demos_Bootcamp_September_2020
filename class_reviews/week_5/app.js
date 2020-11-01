@@ -63,6 +63,24 @@ app.use(methodOverride((req, res) => {
   // for our request that meets conventions.
 }))
 
+// Custom Middleware:
+// Define our own middleware by passing in a callback to app.use()
+// The callback will take in req, res, next
+app.use((req, res, next) => {
+  // You have to access to req.cookies when you setup cookie-parser before this middleware
+  // req.cookies is a an object of key/values representing the name/values of each cookie
+  
+  // Set keys on res.locals to create variables that are global to 
+  // all of our rendered views including partials.
+  // if (req.cookies.username) res.locals.username = req.cookies.username
+  res.locals.username = req.cookies.username || ""
+
+  // next is a middleware function. When called, it tells Express that this current
+  // middleware function is finished and you can move on to the next 
+  // middleware in the pipeline
+  next()
+})
+
 // Routes:
 // First arg is a path from the root of the url path
 // "/" is from "http://localhost:3000/"
@@ -92,22 +110,25 @@ app.get("/", (req, res) => {
   res.render("home")
 })
 
-// Custom Middleware:
-// Define our own middleware by passing in a callback to app.use()
-// The callback will take in req, res, next
-app.use((req, res, next) => {
-  // You have to access to req.cookies when you setup cookie-parser before this middleware
-  // req.cookies is a an object of key/values representing the name/values of each cookie
+// Set a constant (convention SCREAMING_SNAKE_CASE) 
+// It's initialized with the number of milliseconds until the cookie expires
+const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 30
+app.post("/sign_in", (req, res) => {
   
-  // Set keys on res.locals to create variables that are global to 
-  // all of our rendered views including partials.
-  // if (req.cookies.username) res.locals.username = req.cookies.username
-  res.locals.username = req.cookies.username || ""
+  // Set the response's cookies before sending it to the client
+  // res.cookie(cookieName, cookieValue, options)
+  res.cookie("username", req.body.username, { maxAge: COOKIE_MAX_AGE })
 
-  // next is a middleware function. When called, it tells Express that this current
-  // middleware function is finished and you can move on to the next 
-  // middleware in the pipeline
-  next()
+  // redirects follows up with the request to the location
+  // the request goes through all the middlewares again and sets the 
+  // newly created cookie in locals
+  res.redirect("/")
+})
+
+app.delete("/sign_out", (req, res) => {
+  // Delete the cookie named "username"
+  res.clearCookie("username")
+  res.redirect("/")
 })
 
 // Route Middlewares:

@@ -150,12 +150,20 @@
     * You have access to each id in the todo, so you can make a GET to todo/:id
 14. Setup Method Override
   * Add middleware
+  * Add this middleware after the urlencoded parser middleware so that you have access to req.body
   * docs: https://www.npmjs.com/package/method-override#custom-logic
 15. Delete a todo
   * Wrap the delete button in a form to make a DELETE request
   * Add a hidden input to add { _method: name_of_http_verb } to the req.body
   * Add a route handler for DELETE /todos/:id
   * Create a knex query to delete that todo with that id
+  * Redirect to the index page after successfully deleting
+16. Custom Middleware
+  * Set the res.locals object with a username from cookies
+  * This middleware comes after cookie-parser middleware 
+  * Now we can use the username vairable in all our views
+17. Add Sign in and Sign Out to Navbar, conditional on whether the username exists in locals, which depends on cookies
+  * Add routes for DELETE /sign_out and POST /sign_in
 
 ### Summary of REST
   * GET "/todos" => renders index page of all todos
