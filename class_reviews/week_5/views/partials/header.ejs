@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Express Todo Application</title>
+  
+  <%#
+    The "href" path to the stylesheet starts from the root of where we 
+    defined static assets to be served (public)
+    "/stylesheets/bootstrap.min.css" => "/public/stylesheets/bootstrap.min.css"
+  %>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/main.css"/>
+  
+</head>
+<body> 
+  <nav class="navbar navbar-light bg-dark">
+    <form class="form-inline">
+      <button class="btn btn-primary" type="button">
+        <a class="nav-link" href="/">Home</a>
+        </button>
+      <button class="btn btn-primary" type="button">
+        <a class="nav-link" href="/todos">Todos</a>
+      </button>
+      <button class="btn btn-success" type="button">
+        <a class="nav-link" href="/todos/new">New</a>
+      </button>
+    </form>
+
+    <% if (username) { %>
+      <span class="navbar-text" id="username">
+        Logged in as: <%= username %>
+      </span>
+      <form action="/sign_out" method="POST">
+        <input type="hidden" name="_method" value="DELETE" />
+        <input type="submit" class="btn btn-danger" value="Sign Out" />
+      </form>
+    <% } else { %>
+      <form action="/sign_in" method="POST">
+        <input type="text" name="username" />
+        <input type="submit" class="btn btn-success" value="Sign In" />
+      </form>
+    <% } %>
+
+  </nav>
+  <div class="container">

@@ -2,6 +2,8 @@ const express = require('express');
 const logger = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const postRouter=require('./routes/postsRoutes')
+const methodOverride=require('method-override');
 
 // Custom middleware used to get the username from cookies and make it global to all views
 // Middleware has 3 arguments
@@ -42,6 +44,19 @@ app.set('views', 'views'); // tell express that our views live in a directory at
 // This allows our express server to serve up assets like images, css, videos, sounds from a directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(
+  methodOverride((req,res)=>{
+    if(req.body && req.body._method){
+      const method=req.body._method
+      // this modifies the request(req) object
+      // it changes it from Post Request
+      // to be whatever the value for _method was
+      // within the from that was submitted by the user
+      return method;
+    }
+  })
+  
+)
 app.use((req, res, next) => {
   const body = req.body; // this is the inputs of a form sent with a POST request
   let monkeyFound = false;
@@ -154,6 +169,16 @@ app.post('/sign_out', (req, res) => {
   res.clearCookie('username');
   res.redirect('/');
 })
+
+
+// EXPRESS - REST CLASS
+app.use("/posts",postRouter);
+// https://localhost:3000/posts/
+// app.use("/comments",commentRouter);
+// https://localhost:3000/comments/
+
+
+// 
 
 const PORT = 3000;
 const ADDRESS = 'localhost';

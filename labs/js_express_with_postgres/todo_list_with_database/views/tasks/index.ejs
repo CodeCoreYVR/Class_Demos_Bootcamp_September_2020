@@ -1,0 +1,19 @@
+<h2>New Task</h2>
+
+<form action="/tasks" method="post">
+  <div>
+    <textarea cols="60" rows="4" type="text" name="title" value=""></textarea>
+  </div>
+
+  <button type="submit" name="button">Add Task</button>
+</form>
+
+<h2>Tasks</h2>
+
+<ol>
+<% for (let task of tasks) { %>
+  <li>
+    <%= task.title %>
+  </li>
+<% } %>
+</ol>
