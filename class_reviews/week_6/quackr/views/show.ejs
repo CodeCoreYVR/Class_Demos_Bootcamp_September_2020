@@ -1,0 +1,18 @@
+<%- include("./partials/header") %>
+
+<div class="card" style="width: 18rem;">
+  <img src="<%= quack.img_url %>" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title"><%= quack.username %></h5>
+    <p class="card-text"><%= quack.content %></p>
+    <div class="d-flex">
+      <a class="btn btn-warning mr-2" href="/quacks/<%= quack.id %>/edit">Edit</a>
+      <form action="/quacks/<%= quack.id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE" />
+        <input type="submit" class="btn btn-danger" value="Delete" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("./partials/footer") %>
