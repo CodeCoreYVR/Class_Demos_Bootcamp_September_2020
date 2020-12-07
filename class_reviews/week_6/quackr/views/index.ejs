@@ -1,0 +1,49 @@
+<%- include("./partials/header") %>
+
+<h1>All Quacks</h1>
+
+
+<% quacks.forEach(quack => { %>
+  <div class="card" style="width: 18rem;">
+  <img src="<%= quack.img_url %>" class="card-img-top" alt="<%= quack.username %>'s quack">
+  <div class="card-body">
+    <h5 class="card-title"><%= quack.content %></h5>
+    <p class="card-text"><%= quack.username %> • <%= friendlyDate(quack.createdAt, quack.updatedAt) %></p>
+    <div class="d-flex">
+      <a href="/quacks/<%= quack.id %>" class="btn btn-primary mr-2">Show</a>
+      <form action="/quacks/<%= quack.id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE" />
+        <input type="submit" class="btn btn-danger" value="Delete" />
+      </form>
+    </div>
+  </div>
+  </div>
+<% }) %>
+
+<%- include("./partials/footer") %>
+
+
+
+<%# quacks:
+  [
+    {
+      id: 15,
+      username: "a name",
+      img_url: "imsdkfnskjds",
+      content: "dsjifsbdfjksdbfjksdfbksjd"
+    },
+    {
+      id: 15,
+      username: "a name",
+      img_url: "imsdkfnskjds",
+      content: "dsjifsbdfjksdbfjksdfbksjd"
+    },
+    {
+      id: 15,
+      username: "a name",
+      img_url: "imsdkfnskjds",
+      content: "dsjifsbdfjksdbfjksdfbksjd"
+    },
+
+  ]
+%>

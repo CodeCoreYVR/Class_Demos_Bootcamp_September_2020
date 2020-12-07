@@ -7,28 +7,26 @@
 
 # str = gets.chomp
 
-# arr = str.split("") # arr [1,2,3,4,5]
 
-# pairs = []
 
-# for i in 0..arr.length - 2
-#   num1 = arr[i]
-#   num2 = arr[i + 1]
-#   pairs << num1 + num2
-# end
 
-# p pairs
+puts "enter a string here:"
 
-# Aleena's solution
+str = gets.chomp # "123456"
+arr = str.split ""; # arr = ['1', '2', '3', '4', '5', '6']
 
-letter = "abcd" # ["ab", "bc", "cd"]
-arra =[]
-splited = letter.split("")
-splited.each.with_index do |x,i|
-  arra.push(splited[i] + splited[i+1])
+result = []
 
-  i +=1;
-  break if i == splited.length-1
+for i in 0..arr.length-2 # 0..4
+    result << arr[i] + arr[i+1]
 end
-p splited
-p arra
+
+p result
+
+# iteration   |  arr[iteration] + arr[iteration + 1]    | result []
+# ------------------------------------------------------------------
+# 0           | '1'             + '2'                   | ["12"]
+# 1           | '2'             + '3'                   | ["12", "23"]
+# 2           | '3'             + '4'                   | ["12", "23", "34"]
+# 3           | '4'             + '5'                   | ["12", "23", "34", "45"]
+# 4           | '5'             + '6'                   | ["12", "23", "34", "45", "56"]

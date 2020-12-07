@@ -1,3 +1,4 @@
+# [Lab] Print letters
 # Write a code that prints letters in increasing number as follows:
 
 # a
@@ -9,6 +10,6 @@
 
 repeat = 1
 for letter in "a".."z"
-  puts letter * repeat
-  repeat += 1
+    puts letter * repeat
+    repeat += 1
 end
