@@ -87,26 +87,50 @@ $(document).ready(() => {
 
 // LAB 4:
 
-$('#form-1').submit(function(e) {
-	const color = $('#form-1 > input[type=text]').val();
+// $('#form-1').submit(function(e) {
+// 	const color = $('#form-1 > input[type=text]').val();
 
-	// If they enter an invalid color show them an alert message telling them,
-	// "Entered color is not a valid option!"
-	const validColors = ['red', 'blue', 'black', 'grey'];
+// 	// If they enter an invalid color show them an alert message telling them,
+// 	// "Entered color is not a valid option!"
+// 	const validColors = ['red', 'blue', 'black', 'grey'];
 
-	if (!validColors.includes(color)) {
-		alert(`Entered colour, "${color}", is not a valid option!`);
-	} else {
-		// All shapes matching the given color should be removed.
-		$(`.shape.${color}`).remove();
-	}
+// 	if (!validColors.includes(color)) {
+// 		alert(`Entered colour, "${color}", is not a valid option!`);
+// 	} else {
+// 		// All shapes matching the given color should be removed.
+// 		$(`.shape.${color}`).remove();
+// 	}
 
-	// Clear the input field.
-	this.reset(); /* 
-		This really clears the entire form, but since the form only has one input,
-		it is equivalent.
-	*/
-	// or
-	// $('#form-1 > input[type=text]').val('');
+// 	// Clear the input field.
+// 	this.reset(); /* 
+// 		This really clears the entire form, but since the form only has one input,
+// 		it is equivalent.
+// 	*/
+// 	// or
+// 	// $('#form-1 > input[type=text]').val('');
+// });
+
+// As you type in the text input, change the Form Message to be the same as what you type.
+
+$('#form-1 > input[type=text]').on('input', function(e) {
+	$('#form-message').text($(this).val());
 });
+
+// As you type in the text input, change the Form Message to be the REVERSE of what you type.
+
+$('#form-1 > input[type=text]').on('input', function(e) {
+	$('#form-message').text(reverse($(this).val()));
+});
+// Reverses a string
+function reverse(string) {
+	return string.split('').reverse().join('');
+}
+
+//  Set a delegated click handler on the orange container
+//  so that red shapes are removed when you click them.
+
+$('#orange-container').on('click', '.shape.red', function() {
+    $(this).remove();
+});
+
 });
