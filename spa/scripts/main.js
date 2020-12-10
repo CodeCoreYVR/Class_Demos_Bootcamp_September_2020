@@ -19,6 +19,11 @@ const Question = {
       },
       body: JSON.stringify(params)
     }).then((res) => res.json());
+  },
+
+  show(id) {
+    return fetch(`${BASE_URL}/questions/${id}`)
+      .then(res => res.json());
   }
 }
 
@@ -47,7 +52,9 @@ function loadQuestions() {
       questionsContainer.innerHTML = questions.map(q => {
         return `
           <li>
-            ${q.id} - ${q.title}
+            <a class="question-link" data-id="${q.id}" href="">
+              ${q.id} - ${q.title}
+            </a>
           </li>
         `
       }).join('');
@@ -56,6 +63,7 @@ function loadQuestions() {
 
 loadQuestions();
 
+// question new
 const newQuestionForm = document.querySelector('#new-question-form');
 newQuestionForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -66,8 +74,9 @@ newQuestionForm.addEventListener('submit', (event) => {
     body: formData.get('body')
   }
   Question.create(newQuestionParams)
-    .then(data => {
-      loadQuestions();
+    .then(data => { // the rails server responds with JSON that looks like { id: 5 }
+      // loadQuestions();
+      renderQuestionShow(data.id);
     })
 })
 
@@ -90,3 +99,29 @@ navbar.addEventListener('click', (event) => {
     navigateTo(page);
   }
 });
+
+// question show
+const questionsContainer = document.querySelector('ul.question-list');
+questionsContainer.addEventListener('click', event => {
+  event.preventDefault();
+  const questionElement = event.target;
+  if (questionElement.matches('a.question-link')) {
+    const questionId = event.target.dataset.id
+    renderQuestionShow(questionId);
+  }
+})
+
+function renderQuestionShow(id) {
+  const showPage = document.querySelector('.page#question-show');
+  Question.show(id)
+    .then(question => {
+      const questionHTML = `
+        <h2>${question.title}</h2>
+        <p>${question.body}</p>
+        <small>Authored by: ${question.author.first_name} ${question.author.last_name}</small>
+        <small>Liked by: ${question.like_count}</small>
+      `
+      showPage.innerHTML = questionHTML;
+      navigateTo('question-show');
+    })
+}
