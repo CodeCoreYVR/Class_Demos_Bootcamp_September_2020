@@ -76,7 +76,27 @@ newQuestionForm.addEventListener('submit', (event) => {
   Question.create(newQuestionParams)
     .then(data => { // the rails server responds with JSON that looks like { id: 5 }
       // loadQuestions();
-      renderQuestionShow(data.id);
+      if (data.errors) {
+        const newQuestionForm = document.querySelector('#new-question-form');
+        // remove existing errors if any
+        newQuestionForm.querySelectorAll('p.error-message').forEach(node => {
+          node.remove();
+        })
+
+        // {"errors":{"title":["can't be blank"]}}
+        for (const key in data.errors) {
+          const errorMessages = data.errors[key].join(', '); // getting all the error messages
+
+          const errorMessageNode = document.createElement('p'); // creating a node
+          errorMessageNode.classList.add('error-message');
+          errorMessageNode.innerText = errorMessages;
+
+          const input = newQuestionForm.querySelector(`#${key}`); // adding node to DOM
+          input.parentNode.insertBefore(errorMessageNode, input);
+        }
+      } else {
+        renderQuestionShow(data.id);
+      }
     })
 })
 
