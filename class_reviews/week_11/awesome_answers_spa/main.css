@@ -1,0 +1,16 @@
+.page {
+  display: none;
+}
+
+.page.current {
+  display: block;
+}
+
+.page-container { 
+  max-width: 80%;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+}
