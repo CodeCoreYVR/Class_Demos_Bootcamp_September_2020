@@ -15,8 +15,32 @@ const Products = {
         return fetch(`${BASE_URL}/products/${id}`)
             .then(res => res.json())
             .catch(console.error)
+    },
+    create(params) {
+        return fetch(`${BASE_URL}/products`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+        .catch(console.error)
     }
 }
+const Session = {
+    create(params) {
+        return fetch(`${BASE_URL}/session`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
+    }
+}
+Session.create({email:'js@winterfell.gov', password:'supersecret'})
 
 function loadProducts() {
     Products.index().then(products => {
@@ -73,8 +97,26 @@ navbar.addEventListener('click', (event) => {
     event.preventDefault();
     const node = event.target;
     const page = node.dataset.id;
-    if (page){
+    if (page) {
         console.log(page);
         navigateTo(page)
     }
+})
+// Grabbing data from new Question Form:
+const newProductForm=document.querySelector('#new-product-form');
+newProductForm.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    const form=event.currentTarget
+    console.log(form);
+    const fd=new FormData(form)
+    const newProductParams={
+        title:fd.get('title'),
+        body:fd.get('description'),
+        // price:fd.get('price')
+    }
+    console.log(newProductParams);
+    Products.create(newProductParams).then(data=>{
+        console.log(data)
+        loadProducts();
+    }).catch(err=>console.log(err))
 })
