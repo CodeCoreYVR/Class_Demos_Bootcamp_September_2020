@@ -2,7 +2,10 @@ const BASE_URL = `http://localhost:3000/api/v1`;
 
 const Question = {
   index() {
-    return fetch(`${BASE_URL}/questions`)
+    return fetch(`${BASE_URL}/questions`,{
+      headers: {
+        'Cache-Control': 'no-cache'
+      }})
       .then(res => {
         // res object has a method .json() that will parse the body of response and return it as json
         // console.log(res);
@@ -40,6 +43,7 @@ const Question = {
       method:"DELETE",
       credentials:'include',
     }).then(res=>res.json())
+    .catch(console.error)
 
     }
   
@@ -65,7 +69,7 @@ Session.create({
 }).then(console.log);
 
 function loadQuestions() {
-  Question.index()
+ return Question.index()
     .then(questions => {
       const questionsContainer = document.querySelector('ul.question-list');
       questionsContainer.innerHTML = questions.map(q => {
@@ -136,6 +140,9 @@ navbar.addEventListener('click', (event) => {
   const page = node.dataset.target;
   if (page) {
     navigateTo(page);
+    if(page==='question-index'){
+      loadQuestions();
+    }
   }
 });
 // <div data-* ='value'                *=naveed *=name *=id *=target
