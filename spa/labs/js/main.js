@@ -39,6 +39,14 @@ const Products = {
             },
             body: JSON.stringify(params)
         }).then(res => res.json())
+    },
+    destroy(id) {
+        return fetch(`${BASE_URL}/products/${id}`, {
+                method: "DELETE",
+                credentials: 'include',
+            }).then(res => res.json())
+            .catch(console.error)
+
     }
 }
 
@@ -97,6 +105,8 @@ function renderProductShow(id) {
         <a data-target="product-edit" data-id="${ 
             product.id 
             }" href="">Edit</a>
+            <br>
+        <a data-target="delete-product" data-id="${product.id}" href="">Delete</a>
        
         `
         showPage.innerHTML = showPageHTML;
@@ -120,7 +130,10 @@ navbar.addEventListener('click', (event) => {
     const page = node.dataset.id;
     if (page) {
         console.log(page);
-        navigateTo(page)
+        navigateTo(page);
+        if (page === 'product-index') {
+            loadProducts();
+        }
     }
 })
 // Grabbing data from new Product Form:
@@ -146,7 +159,7 @@ newProductForm.addEventListener('submit', (event) => {
             newProductForm.querySelectorAll('p.error-message').forEach(node => {
                 node.remove()
             });
-            
+
             for (const key in data.errors) {
                 const errorMessages = data.errors[key].join(', ');
                 const errorMessageNode = document.createElement('p');
@@ -172,11 +185,21 @@ newProductForm.addEventListener('submit', (event) => {
 // Edit Products
 document.querySelector('#product-show').addEventListener('click', (event) => {
     event.preventDefault();
-    const editProductID = event.target.dataset.id
-    if (editProductID) { // refining the click only to edit button itself
-        console.log(editProductID)
-        populateForm(editProductID);
-        navigateTo('product-edit')
+    const ProductID = event.target.dataset.id
+    const actionNeededTobePerformed = event.target.dataset.target
+    // console.log(actionNeededTobePerformed)
+    if (ProductID) { // refining the click only to edit button itself
+        if (actionNeededTobePerformed === "delete-product") {
+            console.log(`Delete:${ProductID}`)
+            Products.destroy(ProductID).then(product => {
+                loadProducts();
+                navigateTo('product-index');
+            })
+        } else {
+            console.log(ProductID)
+            populateForm(ProductID);
+            navigateTo('product-edit')
+        }
     }
 })
 
