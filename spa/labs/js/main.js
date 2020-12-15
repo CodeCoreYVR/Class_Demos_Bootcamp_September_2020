@@ -107,12 +107,12 @@ const newProductForm=document.querySelector('#new-product-form');
 newProductForm.addEventListener('submit',(event)=>{
     event.preventDefault();
     const form=event.currentTarget
-    console.log(form);
+    // console.log(form);
     const fd=new FormData(form)
     const newProductParams={
         title:fd.get('title'),
-        body:fd.get('description'),
-        // price:fd.get('price')
+        description:fd.get('description'),
+        price:fd.get('price')
     }
     console.log(newProductParams);
     Products.create(newProductParams).then(data=>{
