@@ -9,12 +9,16 @@ const Products = {
                     //  console.log();
                     return res.json()
                 })
-            .catch(console.error)
+            .catch((error) => {
+                console.error(error)
+            })
     },
     show(id) {
         return fetch(`${BASE_URL}/products/${id}`)
             .then(res => res.json())
-            .catch(console.error)
+            .catch((error) => {
+                console.error(error)
+            })
     },
     create(params) {
         return fetch(`${BASE_URL}/products`, {
@@ -25,9 +29,19 @@ const Products = {
             },
             body: JSON.stringify(params)
         }).then(res => res.json())
-        .catch(console.error)
+    },
+    update(id, params) {
+        return fetch(`${BASE_URL}/products/${id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(params)
+        }).then(res => res.json())
     }
 }
+
 const Session = {
     create(params) {
         return fetch(`${BASE_URL}/session`, {
@@ -40,7 +54,10 @@ const Session = {
         }).then(res => res.json())
     }
 }
-Session.create({email:'js@winterfell.gov', password:'supersecret'})
+Session.create({
+    email: 'js@winterfell.gov',
+    password: 'supersecret'
+})
 
 function loadProducts() {
     Products.index().then(products => {
@@ -77,6 +94,10 @@ function renderProductShow(id) {
         const showPageHTML = `
         <h2>${product.title}</h2>
         <p>${product.description}</p>
+        <a data-target="product-edit" data-id="${ 
+            product.id 
+            }" href="">Edit</a>
+       
         `
         showPage.innerHTML = showPageHTML;
         navigateTo('product-show')
@@ -102,21 +123,89 @@ navbar.addEventListener('click', (event) => {
         navigateTo(page)
     }
 })
-// Grabbing data from new Question Form:
-const newProductForm=document.querySelector('#new-product-form');
-newProductForm.addEventListener('submit',(event)=>{
+// Grabbing data from new Product Form:
+const newProductForm = document.querySelector('#new-product-form');
+newProductForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    const form=event.currentTarget
+    const form = event.currentTarget
     // console.log(form);
-    const fd=new FormData(form)
-    const newProductParams={
-        title:fd.get('title'),
-        description:fd.get('description'),
-        price:fd.get('price')
+    const fd = new FormData(form)
+    const newProductParams = {
+        title: fd.get('title'),
+        description: fd.get('description'),
+        price: fd.get('price')
     }
     console.log(newProductParams);
-    Products.create(newProductParams).then(data=>{
-        console.log(data)
-        loadProducts();
-    }).catch(err=>console.log(err))
+    Products.create(newProductParams).then(data => {
+        // console.log('Before IF:',data.errors)
+
+        if (data.errors) {
+            // console.log('After IF:', data.errors)
+            const newProductForm = document.querySelector('#new-product-form');
+            // Once the form is resubmitted it should remove old error complains 
+            newProductForm.querySelectorAll('p.error-message').forEach(node => {
+                node.remove()
+            });
+            
+            for (const key in data.errors) {
+                const errorMessages = data.errors[key].join(', ');
+                const errorMessageNode = document.createElement('p');
+                // adding class 'error-message' to node created above
+                errorMessageNode.classList.add('error-message');
+                // Pushing the string of error messages in the node created above
+                errorMessageNode.innerText = errorMessages;
+                // Here 'id' in the form is the 'key' in the object received as error from rails server and we are grabbing the form node by help of it
+                const input = newProductForm.querySelector(`#${key}`)
+                // now inserting the new node created before the input node we grabbed above
+                input.parentNode.insertBefore(errorMessageNode, input)
+
+            }
+        } else {
+
+            renderProductShow(data.id)
+        }
+        // console.log(data)
+        // loadProducts();
+    })
+})
+
+// Edit Products
+document.querySelector('#product-show').addEventListener('click', (event) => {
+    event.preventDefault();
+    const editProductID = event.target.dataset.id
+    if (editProductID) { // refining the click only to edit button itself
+        console.log(editProductID)
+        populateForm(editProductID);
+        navigateTo('product-edit')
+    }
+})
+
+function populateForm(id) {
+    Products.show(id).then(
+        productData => {
+            document.querySelector('#edit-product-form [name=title]').value = productData.title;
+            document.querySelector('#edit-product-form [name=description]').value = productData.description;
+            document.querySelector('#edit-product-form [name=price]').value = productData.price;
+            document.querySelector('#edit-product-form [name=id]').value = productData.id;
+        }
+    )
+}
+
+// Creating Update Function
+
+const editProductForm = document.querySelector('#edit-product-form');
+editProductForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const editFormData = new FormData(event.currentTarget);
+    const updatedProduct = {
+        title: editFormData.get('title'),
+        description: editFormData.get('description'),
+        price: editFormData.get('price')
+    };
+    // console.log(updatedProduct);
+    Products.update(editFormData.get('id'), updatedProduct)
+        .then((product) => {
+            editProductForm.reset(); // making the form blank
+            renderProductShow(product.id)
+        })
 })

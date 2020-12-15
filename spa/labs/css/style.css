@@ -4,3 +4,6 @@
 .page.active{
     display: block;
 }
+.error-message {
+    color: red;
+    }
